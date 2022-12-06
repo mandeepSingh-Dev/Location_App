@@ -19,8 +19,8 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         locationFetcher = LocationFetcher(context = this, FusedLocationProviderClient(this))
-
         locationFetcher.init()
+
 
     }
 

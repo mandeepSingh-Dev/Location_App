@@ -50,6 +50,7 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
         super.onLocationResult(locationResult)
 
         locationResult?.locations?.forEach{
+            Toast.makeText(context, it.latitude.toString(), Toast.LENGTH_SHORT).show()
             Log.d("e9fineef", "onLocationResult: ${it.latitude}")
 
         }
@@ -60,7 +61,7 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
         super.onLocationAvailability(locationAvailiablity)
 
         isLocationAvailable = locationAvailiablity?.isLocationAvailable!!
-        if(!isLocationAvailable) {
+        if(permissionGranted) {
             requestLocation()
         }
     }
@@ -77,9 +78,12 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
 
         if (!permissionGranted) {
 
-          (context as BaseActivity).request_Permission(Manifest.permission.ACCESS_FINE_LOCATION){
+          (context as BaseActivity).request_Multiple_Permission(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)){
               permissionGranted = it
-              requestLocation()
+
+              if(permissionGranted) {
+                  requestLocation()
+              }
           }
 
           //  ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),100)
@@ -87,8 +91,9 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
                 if (!locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     Toast.makeText(context, "requireC", Toast.LENGTH_SHORT).show()
                     requestLocation()
-                } else { }
-
+                } else {
+                    getLastLocation()
+                }
 
         }
 
@@ -124,6 +129,8 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
                 // All location settings are satisfied. The client can initialize location
                 // requests here.
 
+                Toast.makeText(context, "dfdnfdf", Toast.LENGTH_SHORT).show()
+
             } catch (exception: ApiException) {
                 Log.v("Failed location ", exception.statusCode.toString())
                 when (exception.statusCode) {
@@ -150,9 +157,12 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
         }
     }
 
+     @SuppressLint("SuspiciousIndentation")
      fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
          if (resultCode == Activity.RESULT_OK) {
           locationStatusOk = true
+//             getLastLocation()
+             Toast.makeText(context, "location Enabled", Toast.LENGTH_SHORT).show()
          }else{
              locationStatusOk = false
              requestLocation()
@@ -180,6 +190,19 @@ class LocationFetcher(val context: Context, val fusedLocationProviderClient: Fus
 
     fun getLoc_from_latLng(location : Location) = Geocoder(context).getFromLocation(location.latitude,location.longitude,3)
 
+
+    fun checkProviders(){
+        val gpsProvder = locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val networkProvider = locationManger.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+        if(gpsProvder or networkProvider)
+        {
+            return
+        }
+
+
+
+    }
 }
 
 
