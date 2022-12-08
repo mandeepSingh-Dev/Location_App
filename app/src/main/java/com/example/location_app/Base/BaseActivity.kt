@@ -1,8 +1,6 @@
-package com.example.location_app
+package com.example.location_app.Base
 
-import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
@@ -18,15 +16,15 @@ open class BaseActivity : AppCompatActivity() {
 
         val launcher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(),
             ActivityResultCallback {
-               it.forEach {
-                   Toast.makeText(this, it.key+"__"+it.value.toString(), Toast.LENGTH_SHORT).show()
-
-               }
+                it.forEach {
+                    if(it.key == permission.get(0))  //here permission[0] is ACCESS_FINE_LOCATION
+                    {
+                        isGrantedScoped(it.value)
+                    }
+                }
             })
 
-        launcher.launch(permission).let {
-            locationPermission = isGranted
-        }
+        launcher.launch(permission)
 
     }
 
