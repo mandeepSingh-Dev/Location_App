@@ -53,8 +53,11 @@ class LocationFetcher(val context: Context,val myListtener: MyListener) : Locati
     }
     init {
 
-      /*  fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-        *//** Initializing locationRequest and registering LocationCallback *//*
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+
+
+        /*  fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+          *//** Initializing locationRequest and registering LocationCallback *//*
         locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             interval = 3000L
@@ -113,7 +116,6 @@ class LocationFetcher(val context: Context,val myListtener: MyListener) : Locati
 
     fun init(){
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         /** Initializing locationRequest and registering LocationCallback */
         locationRequest?.apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY

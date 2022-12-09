@@ -2,9 +2,10 @@ package com.example.location_app.Model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "locationTable")
+@Entity(tableName = "locationTable"/*, indices = [Index(value = ["longitude", "latitude"], unique = true)]*/)
 data class LocationEntity (
 
     @ColumnInfo (name = "longitude")
