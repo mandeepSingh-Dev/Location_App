@@ -145,6 +145,8 @@ class LocationFetcher(val context: Context,val myListtener: MyListener) : Locati
 
           (context as BaseActivity).request_Multiple_Permission(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)){
               permissionGranted = it
+
+              Constants._isPermission.value = it
               if(permissionGranted) {
                  showToast("permission Granted Now request Location")
                   requestLocation()
@@ -153,7 +155,10 @@ class LocationFetcher(val context: Context,val myListtener: MyListener) : Locati
 
           //  ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),100)
         }else{
-                if (!locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
+
+            Constants._isPermission.value = true
+
+            if (!locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
                     showToast("Network Provider is diabled so request location")
                      requestLocation()
                 } else {

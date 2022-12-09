@@ -58,7 +58,7 @@ class MainActivity2 : BaseActivity(), LocationFetcher.MyListener {
         setupLocationFetcher()
 
       lifecycleScope.launch {
-         // setUpWorkManager()
+       //  setUpWorkManager()
 
           dataStorePrefImpl.getPreference(Constants.WORKMANAGER_EXECUTED,false).collect{
            if(it == false)
